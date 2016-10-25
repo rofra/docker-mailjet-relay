@@ -1,0 +1,20 @@
+mailjetsmtp:
+  build: .
+  ports:
+   - "25:25"
+  environment:
+    GMAIL_USER:
+    GMAIL_PASSWORD:
+    SES_USER:
+    SES_PASSWORD:
+    SES_REGION:
+    RELAY_NETWORKS: ""
+    RELAY_DOMAINS: ""
+    KEY_PATH:
+    CERTIFICATE_PATH:
+    MAILNAME:
+    SMARTHOST_ADDRESS: "in.mailjet.com"
+    SMARTHOST_PORT: "587"
+    SMARTHOST_USER: "3d0caa00683ced801c1419b5798c8e93"
+    SMARTHOST_PASSWORD: "7627624aa9a1669780ece996ca63b1c5"
+    SMARTHOST_ALIASES: "*"
