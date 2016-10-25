@@ -36,7 +36,7 @@ SMARTHOST_USER="<USERKEYKEY>"
 SMARTHOST_PASSWORD="<APIKEY>"
 ~~~~
 
-## docker example
+## Docker "run" example
 Example to enable any client IP to send emails (see network range)
 ~~~~
 docker run -d --name mailer \
@@ -50,7 +50,7 @@ docker run -d --name mailer \
       fedorage/mailjet:latest
 ~~~~
 
-## docker-compose example (version 2)
+## Docker Compose example file (docker-compose.yml) (version 2)
 ~~~~
 version: '2'
 
