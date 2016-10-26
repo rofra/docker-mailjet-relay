@@ -3,7 +3,6 @@ version: '2'
 services:
   mailer:
     build: .
-    # image: fedorage/mailjet:latest
     ports:
      - "25:25"
     environment:
