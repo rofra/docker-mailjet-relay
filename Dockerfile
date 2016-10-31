@@ -2,6 +2,14 @@ FROM debian:jessie
 
 MAINTAINER Rodolphe Franceschi "rodolphe.franceschi@gmail.com"
 
+ENV RELAY_NETWORK_RANGES="" \
+    RELAY_DOMAINS="" \
+    SMARTHOST_ALIASES="*" \
+    SMARTHOST_ADDRESS="in.mailjet.com" \
+    SMARTHOST_PORT="587" \
+    SMARTHOST_USER="aaaaaaaaaaaaaaaaaaa" \
+    SMARTHOST_PASSWORD="bbbbbbbbbbbbbbbb"
+
 RUN apt-get update && \
     apt-get install -y exim4-daemon-light && \
     apt-get clean && \
@@ -10,6 +18,8 @@ RUN apt-get update && \
 
 COPY entrypoint.sh /bin/
 COPY set-exim4-update-conf /bin/
+
+RUN echo "log_file_path = /etc/stdout" >> /etc/exim4/conf.d/main/02_exim4-config_options
 
 RUN chmod a+x /bin/entrypoint.sh && \
     chmod a+x /bin/set-exim4-update-conf
