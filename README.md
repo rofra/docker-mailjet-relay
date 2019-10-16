@@ -1,17 +1,17 @@
-# dockerhub-mailjet
+# docker-mailjet-relay
 [![](https://images.microbadger.com/badges/image/fedorage/mailjet.svg)](https://microbadger.com/images/fedorage/mailjet "Get your own image badge on microbadger.com")
 
 This is a SMTP docker container for sending emails with MAILJET.
 
-# Features
+## Features
 Quick integration of Mailjet Mailing services into your Docker / Docker-compose projects by opening an SMTP server on port 25 ready for production.
 
-# How to Use
+## How to Use
 Go to your MAILJET Dashboard (https://www.mailjet.com/account/setup) to extract your USER KEY and API KEY for using Mailjet.
 
 This container will automatically install the depedencies required for exim4 and configure it for mailjet (in /etc/exim4/ directory) on launch.
 
-# Environment variables
+## Environment variables
  * *RELAY_NETWORK_RANGES*: MUST start with : e.g :192.168.0.0/24 or :192.168.0.0/24:10.0.0.0/16 if you want to force the network (see exim4 *dc_relay_nets*). By default (""), container network is set.
  * *RELAY_DOMAINS*: domains to relay (see exim4 *dc_relay_domains*)
  * *SMARTHOST_ALIASES*: Aliases allowed for relayin
@@ -20,11 +20,11 @@ This container will automatically install the depedencies required for exim4 and
  * *SMARTHOST_USER*: Your User API KEY
  * *SMARTHOST_PASSWORD*: Your PASSWORD API KEY
 
-# Port
+## Port
 * 25: Exim4 SMTP daemon
 
-# Setup 
-## Example values for Simple Relay on current Docker network
+## Setup 
+### Example values for Simple Relay on current Docker network
 Here are the values for environment variables to set for a minimal working mailjet configuration
 ~~~~
 RELAY_NETWORK_RANGES="" (Use the default "" with docker-compose for the default subnetwork)
@@ -36,7 +36,7 @@ SMARTHOST_USER="<USERKEYKEY>"
 SMARTHOST_PASSWORD="<APIKEY>"
 ~~~~
 
-## Docker "run" example
+### Docker "run" example
 Example to enable any client IP to send emails (see network range)
 ~~~~
 docker run -d --name mailer \
@@ -50,7 +50,7 @@ docker run -d --name mailer \
       fedorage/mailjet:latest
 ~~~~
 
-## Docker Compose example file (docker-compose.yml) (version 2)
+### Docker Compose example file (docker-compose.yml) (version 2)
 ~~~~
 version: '2'
 
@@ -67,7 +67,7 @@ services:
       SMARTHOST_PASSWORD: "<YOURAPIPASSWORD>"
 ~~~~
 
-# Manually test your SMTP
+## Manually test your SMTP
 with your netcat command line, example: nc 172.42.0.1 25
 ~~~~
 HELO MOTO
@@ -82,6 +82,6 @@ Hi John, The next meeting will be on Friday.
 .
 ~~~~
 
-# Thanks
+## Thanks
 Based on Namshi repository sources https://github.com/namshi/docker-smtp
 
