@@ -9,11 +9,7 @@ if [ "$MAILNAME" ]; then
 fi
 
 if [ "$KEY_PATH" -a "$CERTIFICATE_PATH" ]; then
-	if [ "$MAILNAME" ]; then
-	  echo "MAIN_TLS_ENABLE = yes" >>  /etc/exim4/exim4.conf.localmacros
-	else
-		echo "MAIN_TLS_ENABLE = yes" >  /etc/exim4/exim4.conf.localmacros
-	fi
+	echo "MAIN_TLS_ENABLE=1" >>  /etc/exim4/exim4.conf.localmacros
 	cp $KEY_PATH /etc/exim4/exim.key
 	cp $CERTIFICATE_PATH /etc/exim4/exim.crt
 	chgrp Debian-exim /etc/exim4/exim.key
@@ -23,41 +19,25 @@ if [ "$KEY_PATH" -a "$CERTIFICATE_PATH" ]; then
 fi
 
 opts=(
-	dc_local_interfaces "[0.0.0.0]:${PORT:-25} ; [::0]:${PORT:-25}"
+    dc_eximconfig_configtype 'smarthost'
 	dc_other_hostnames ''
+	dc_local_interfaces "[0.0.0.0]:${PORT:-25} ; [::0]:${PORT:-25}"
     dc_readhost 'receiver'
+    dc_relay_domains "${RELAY_DOMAINS}"
+    dc_minimaldns 'false'
 	dc_relay_nets "$(ip addr show dev eth0 | awk '$1 == "inet" { print $2 }')${RELAY_NETWORK_RANGES}"
+    dc_smarthost "${SMARTHOST_ADDRESS}::${SMARTHOST_PORT}"
+    CFILEMODE '644'
+    dc_use_split_config 'false'
+    dc_hide_mailname 'true'
+    dc_mailname_in_oh 'true'
+    dc_localdelivery 'mail_spool'
 )
 
-if [ "$SES_USER" -a "$SES_PASSWORD" ]; then
-	opts+=(
-		dc_eximconfig_configtype 'smarthost'
-		dc_smarthost "email-smtp.${SES_REGION:=us-east-1}.amazonaws.com::587"
-	)
-	echo "*.amazonaws.com:$SES_USER:$SES_PASSWORD" > /etc/exim4/passwd.client
-# Allow to specify an arbitrary smarthost.
-# Parameters: SMARTHOST_USER, SMARTHOST_PASSWORD: authentication parameters
-# SMARTHOST_ALIASES: list of aliases to puth auth data for (semicolon separated)
-# SMARTHOST_ADDRESS, SMARTHOST_PORT: connection parameters.
-elif [ "$SMARTHOST_USER" -a "$SMARTHOST_PASSWORD" ] && [ "$SMARTHOST_ALIASES" -a "$SMARTHOST_ADDRESS" ] ; then
-	opts+=(
-		dc_eximconfig_configtype 'smarthost'
-		dc_smarthost "${SMARTHOST_ADDRESS}::${SMARTHOST_PORT-25}"
-	)
-	rm -f /etc/exim4/passwd.client
-	echo "$SMARTHOST_ALIASES;" | while read -d ";" alias; do
-	  echo "${alias}:$SMARTHOST_USER:$SMARTHOST_PASSWORD" >> /etc/exim4/passwd.client
-	done
-elif [ "$RELAY_DOMAINS" ]; then
-	opts+=(
-		dc_relay_domains "${RELAY_DOMAINS}"
-		dc_eximconfig_configtype 'internet'
-	)
-else
-	opts+=(
-		dc_eximconfig_configtype 'internet'
-	)
-fi
+rm -f /etc/exim4/passwd.client
+echo "$SMARTHOST_ALIASES;" | while read -d ";" alias; do
+  echo "${alias}:$SMARTHOST_USER:$SMARTHOST_PASSWORD" >> /etc/exim4/passwd.client
+done
 
 /bin/set-exim4-update-conf "${opts[@]}"
 

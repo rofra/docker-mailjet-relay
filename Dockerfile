@@ -5,10 +5,10 @@ MAINTAINER Rodolphe Franceschi "rodolphe.franceschi@gmail.com"
 ENV RELAY_NETWORK_RANGES="" \
     RELAY_DOMAINS="" \
     SMARTHOST_ALIASES="*" \
-    SMARTHOST_ADDRESS="in.mailjet.com" \
+    SMARTHOST_ADDRESS="in-v3.mailjet.com" \
     SMARTHOST_PORT="587" \
-    SMARTHOST_USER="aaaaaaaaaaaaaaaaaaa" \
-    SMARTHOST_PASSWORD="bbbbbbbbbbbbbbbb"
+    SMARTHOST_USER="DEFAULTAPIKEY" \
+    SMARTHOST_PASSWORD="DEFAULTAPIPASS"
 
 RUN apt-get update && \
     apt-get install -y exim4-daemon-light && \

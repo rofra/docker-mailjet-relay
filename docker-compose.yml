@@ -6,12 +6,5 @@ services:
     ports:
      - "25:25"
     environment:
-      RELAY_NETWORK_RANGES: ""
-      RELAY_DOMAINS: ""
-      SMARTHOST_ALIASES: "*"
-      SMARTHOST_ADDRESS: "in.mailjet.com"
-      SMARTHOST_PORT: "587"
-      SMARTHOST_USER: "3d0caa00683ced801c1419b5798c8e93"
-      SMARTHOST_PASSWORD: "7627624aa9a1669780ece996ca63b1c5"
-
-
+      SMARTHOST_USER: "APIKEY"
+      SMARTHOST_PASSWORD: "APIPASS"

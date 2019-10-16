@@ -30,7 +30,7 @@ Here are the values for environment variables to set for a minimal working mailj
 RELAY_NETWORK_RANGES="" (Use the default "" with docker-compose for the default subnetwork)
 RELAY_DOMAINS="" (Use the default "" if you don't need to for the relay domain list) 
 SMARTHOST_ALIASES="*" (Use the default "*" to allow the SMTP relay to forward any mail)
-SMARTHOST_ADDRESS="in.mailjet.com"
+SMARTHOST_ADDRESS="in-v3.mailjet.com"
 SMARTHOST_PORT="587"
 SMARTHOST_USER="<USERKEYKEY>"
 SMARTHOST_PASSWORD="<APIKEY>"
@@ -43,7 +43,7 @@ docker run -d --name mailer \
        -e RELAY_NETWORKS_RANGE=":0.0.0.0/0" \
        -e RELAY_DOMAINS="" \
        -e SMARTHOST_ALIASES="*" \
-       -e SMARTHOST_ADDRESS="in.mailjet.com" \
+       -e SMARTHOST_ADDRESS="in-v3.mailjet.com" \
        -e SMARTHOST_PORT="587" \
        -e SMARTHOST_USER="<YOURAPIKEY>" \
        -e SMARTHOST_PASSWORD="<YOURAPIPASSWORD>" \
@@ -63,8 +63,6 @@ services:
       RELAY_NETWORK_RANGES: ""
       RELAY_DOMAINS: ""
       SMARTHOST_ALIASES: "*"
-      SMARTHOST_PORT: "587" 
-      SMARTHOST_ADDRESS: "in.mailjet.com"
       SMARTHOST_USER: "<YOURAPIKEY>"
       SMARTHOST_PASSWORD: "<YOURAPIPASSWORD>"
 ~~~~
